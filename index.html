@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance & Investment Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Dashboard Layout -->
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside class="w-64 h-screen bg-gray-800 text-white p-5 hidden md:block">
+            <h2 class="text-xl font-bold mb-5">Finance Dashboard</h2>
+            <ul>
+                <li class="mb-4"><a href="#" class="block py-2 px-4 bg-gray-700 rounded section-link" data-section="dashboard">Dashboard</a></li>
+                <li class="mb-4"><a href="#" class="block py-2 px-4 hover:bg-gray-700 rounded section-link" data-section="portfolio">Portfolio</a></li>
+                <li class="mb-4"><a href="#" class="block py-2 px-4 hover:bg-gray-700 rounded section-link" data-section="investments">Investments</a></li>
+                <li class="mb-4"><a href="#" class="block py-2 px-4 hover:bg-gray-700 rounded section-link" data-section="market-news">Market News</a></li>
+                <li><a href="#" class="block py-2 px-4 hover:bg-gray-700 rounded section-link" data-section="settings">Settings</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6">
+            <!-- Dashboard Section -->
+            <div id="dashboard" class="content-section">
+                <div class="flex justify-between items-center mb-5">
+                    <h1 class="text-2xl font-semibold">Finance & Investment Overview</h1>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded">+ Add Investment</button>
+                </div>
+
+                <!-- Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h2 class="text-lg font-semibold">Total Balance</h2>
+                        <p class="text-2xl font-bold text-green-600">$45,750</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h2 class="text-lg font-semibold">Stock Portfolio</h2>
+                        <p class="text-2xl font-bold text-blue-600">+8.5%</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h2 class="text-lg font-semibold">Monthly Expenses</h2>
+                        <p class="text-2xl font-bold text-red-600">-$1,200</p>
+                    </div>
+                </div>
+
+                <!-- Chart & Transactions -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h2 class="text-lg font-semibold mb-4">Income vs. Expenses</h2>
+                        <canvas id="incomeChart"></canvas>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h2 class="text-lg font-semibold mb-4">Recent Transactions</h2>
+                        <ul>
+                            <li class="border-b py-2 flex justify-between">
+                                <span>Amazon Purchase</span> <span class="text-red-600">-$150</span>
+                            </li>
+                            <li class="border-b py-2 flex justify-between">
+                                <span>Stock Dividend</span> <span class="text-green-600">+$300</span>
+                            </li>
+                            <li class="border-b py-2 flex justify-between">
+                                <span>Salary Credit</span> <span class="text-green-600">+$3,500</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Portfolio Section -->
+            <div id="portfolio" class="content-section hidden">
+                <h1 class="text-2xl font-semibold mb-4">Your Portfolio</h1>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-lg font-semibold">Stock Holdings</h2>
+                    <ul>
+                        <li>Apple (AAPL) - 20 Shares</li>
+                        <li>Microsoft (MSFT) - 15 Shares</li>
+                        <li>Google (GOOGL) - 10 Shares</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Investments Section -->
+            <div id="investments" class="content-section hidden">
+                <h1 class="text-2xl font-semibold mb-4">Your Investments</h1>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-lg font-semibold">Investment Summary</h2>
+                    <p>Total Invested: <span class="text-blue-600">$25,000</span></p>
+                    <p>Current Value: <span class="text-green-600">$28,500</span></p>
+                </div>
+            </div>
+
+            <!-- Market News Section -->
+            <div id="market-news" class="content-section hidden">
+                <h1 class="text-2xl font-semibold mb-4">Latest Market News</h1>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-lg font-semibold">Top Financial News</h2>
+                    <ul>
+                        <li>📈 Stocks rise after tech earnings</li>
+                        <li>💰 Bitcoin crosses $50,000</li>
+                        <li>📉 Inflation concerns grow globally</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div id="settings" class="content-section hidden">
+                <h1 class="text-2xl font-semibold mb-4">Settings</h1>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-lg font-semibold">Profile Settings</h2>
+                    <p>Email: user@example.com</p>
+                    <button class="mt-4 bg-red-500 text-white px-4 py-2 rounded">Logout</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Chart Logic
+        const ctx = document.getElementById('incomeChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['January', 'February', 'March', 'April'],
+                datasets: [{
+                    label: 'Income',
+                    data: [3000, 3200, 2800, 3500],
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                }, {
+                    label: 'Expenses',
+                    data: [1200, 1400, 1000, 1600],
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                }]
+            },
+        });
+
+        // Dynamic Navigation
+        document.addEventListener("DOMContentLoaded", function () {
+            const links = document.querySelectorAll(".section-link");
+            const sections = document.querySelectorAll(".content-section");
+
+            links.forEach(link => {
+                link.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    sections.forEach(section => section.classList.add("hidden"));
+                    document.getElementById(this.getAttribute("data-section")).classList.remove("hidden");
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
